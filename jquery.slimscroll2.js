@@ -136,8 +136,7 @@
 						// scroll content by the given offset
 						scrollContent(offset, false, true);
 
-						$(document).unbind('.slimscroll');
-						draggable();
+						$(document).unbind('mousemove.slimscroll');
 						var pageY, t = parseFloat(bar.css('top'));
 						$(document).bind("mousemove.slimscroll", function(e) {
 							if (e.buttons == 1) {
@@ -147,9 +146,7 @@
 								scrollContent(0, currTop, false); // scroll content
 							}
 							return;
-						}).bind("mouseup.slimscroll", function() {
-							$(document).unbind('.slimscroll');
-						});
+						})
 					}
 
 					return;
@@ -224,34 +221,31 @@
 				me.parent().append(rail);
 
 				// make it draggable and no longer dependent on the jqueryUI
-				function draggable() {
-					if (o.railDraggable) {
-						bar.bind("mousedown", function(e) {
-							var $doc = $(document);
-							isDragg = true;
-							t = parseFloat(bar.css('top'));
-							pageY = e.pageY;
+				if (o.railDraggable) {
+					bar.bind("mousedown", function(e) {
+						var $doc = $(document);
+						isDragg = true;
+						t = parseFloat(bar.css('top'));
+						pageY = e.pageY;
 
-							$doc.bind("mousemove.slimscroll", function(e) {
-								currTop = t + e.pageY - pageY;
-								bar.css('top', currTop);
-								scrollContent(0, bar.position().top, false); // scroll content
-							});
-
-							$doc.bind("mouseup.slimscroll", function(e) {
-								isDragg = false;
-								hideBar();
-								$doc.unbind('.slimscroll');
-							});
-							return false;
-						}).bind("selectstart.slimscroll", function(e) {
-							e.stopPropagation();
-							e.preventDefault();
-							return false;
+						$doc.bind("mousemove.slimscroll", function(e) {
+							currTop = t + e.pageY - pageY;
+							bar.css('top', currTop);
+							scrollContent(0, bar.position().top, false); // scroll content
 						});
-					}
+
+						$doc.bind("mouseup.slimscroll", function(e) {
+							isDragg = false;
+							hideBar();
+							$doc.unbind('.slimscroll');
+						});
+						return false;
+					}).bind("selectstart.slimscroll", function(e) {
+						e.stopPropagation();
+						e.preventDefault();
+						return false;
+					});
 				}
-				draggable();
 				// on rail over
 				rail.hover(function() {
 					showBar();
