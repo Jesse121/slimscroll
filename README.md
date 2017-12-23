@@ -1,12 +1,3 @@
----
-title: 针对模拟滚动条插件(jQuery.slimscroll.js)的修改 
-date: 2017-12-23 15:19:24
-categories:
-- jQuery
-tags:
-- jQuery
----
-
 为了能使用自定义的滚动条样式并且能在各主流浏览器上兼容，我在网上搜索了下发现类似的jquery插件有很多，为了更贴近项目需要我选择了jquery.slimscroll.js. 可是在实际使用的过程中发现该插件不支持滚动的内容翻页，一旦翻页追加新内容，因为内容高度的变化导致存在跳跃的情况。无奈之下采用css样式自定义滚动条，但这种解决办法只有webkit内核浏览器有效。最近抽出空余时间一直在尝试修改slimscroll插件，此篇博客记录自己的分析过程。
 
 <!-- more -->
@@ -79,7 +70,7 @@ $(document).bind("mousemove.slimscroll", function(e) {
 MouseEvent.buttons 可指示任意鼠标事件中鼠标的按键情况  
 MouseEvent.button 只能够表明在事件中通过按下或者放开一个按键，或者是多个按键同时按下时，哪一个按键被按下。因此，它对判断mouseenter, mouseleave, mouseover, mouseout or mousemove这些事件并不可靠。
 
-修改源码之后的效果请猛击这里[demo2](https://jesse121.github.io/slimscroll/demo1.html) 
+**修改源码之后的效果请猛击这里**[demo2](https://jesse121.github.io/slimscroll/demo2.html) 
 
 ##### 参考文献：
 > [MouseEvent.button](https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/button)  
