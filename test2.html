@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>修改前</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <script src="jquery.min.js"></script>
+    <script src="jquery.slimscroll.min.js"></script>
+    <style type="text/css">
+        li{
+            list-style-type: none;
+            line-height: 30px;
+            height: 30px; 
+        }
+        .slimscroll{
+            padding: 0;
+            margin: 0;
+            height:300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="slimscroll">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+        <li>11</li>
+        <li>12</li>
+        <li>13</li>
+        <li>14</li>
+        <li>15</li>
+    </ul>
+    <script type="text/javascript">
+        function initScroll(){
+            $(".slimscroll").slimScroll({
+                width: 'auto', //可滚动区域宽度
+                height: '300px', //可滚动区域高度
+                size: '10px', //组件宽度
+                color: '#fe2545', //滚动条颜色
+                position: 'right', //组件位置：left/right
+                distance: '0px', //组件与侧边之间的距离
+                start: 'top', //默认滚动位置：top/bottom
+                opacity: 1, //滚动条透明度
+                alwaysVisible: true, //是否 始终显示组件
+                disableFadeOut: false, //是否 鼠标经过可滚动区域时显示组件，离开时隐藏组件
+                railVisible: true, //是否 显示轨道
+                railColor: '#333', //轨道颜色
+                railOpacity: .2, //轨道透明度
+                railDraggable: true, //是否 滚动条可拖动
+                railClass: 'slimScrollRail', //轨道div类名 
+                barClass: 'slimScrollBar', //滚动条div类名
+                wrapperClass: 'slimScrollDiv', //外包div类名
+                allowPageScroll: true, //是否 使用滚轮到达顶端/底端时，滚动窗口
+                wheelStep: 10, //滚轮滚动量
+                touchScrollStep: 200, //滚动量当用户使用手势
+                borderRadius: '5px', //滚动条圆角
+                railBorderRadius: '5px' //轨道圆角
+            });
+        }
+        initScroll();
+        // var lock = false;
+        function scrollLoad(ele, bottomHeight, callback) {
+            var _ele = document.querySelector(ele),
+                cliHeight = _ele.clientHeight,
+                bH = bottomHeight || 100;
+            _ele.addEventListener('scroll', function() {
+                var scrollHeight = this.scrollHeight;
+                var scrollTop = this.scrollTop;
+                console.log('scrollTop',scrollTop);
+                if (scrollHeight - cliHeight - scrollTop < bH) {
+                    callback();
+                }
+            }, false);
+        }
+
+        scrollLoad('.slimscroll',100,function(){
+            // if(lock)return ;
+            // lock = true;
+            load();
+        })
+
+        function load(){
+            $.ajax({
+                type:'GET',
+                url:"test.txt",
+                success:function(data){
+                    $('.slimscroll').append(data);
+                    initScroll();
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            })
+        }
+
+    </script>
+</body>
+
+</html>
