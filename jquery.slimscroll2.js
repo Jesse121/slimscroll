@@ -136,16 +136,23 @@
 						// scroll content by the given offset
 						scrollContent(offset, false, true);
 
+						
+						// 以下是我添加的内容
+						//追加新内容后强制解绑之前的鼠标事件，不使用翻页之前记录的值
 						$(document).unbind('mousemove.slimscroll');
+						//解绑后为了能继续下拉滚动条，需重新绑定鼠标事件
+						//记录最新的滚动条的top值和鼠标位置
 						var pageY, t = parseFloat(bar.css('top'));
 						$(document).bind("mousemove.slimscroll", function(e) {
-							if (e.buttons == 1) {
-								pageY = pageY || e.pageY
-								currTop = t + e.pageY - pageY;
-								bar.css('top', currTop);
-								scrollContent(0, currTop, false); // scroll content
-							}
-							return;
+						    //这里判断鼠标状态是为了区分滚动事件和拖动事件
+						    //当鼠标左键是按下状态时，
+						    if (e.buttons == 1) {
+						        pageY = pageY || e.pageY
+						        currTop = t + e.pageY - pageY;
+						        bar.css('top', currTop);
+						        scrollContent(0, currTop, false); // scroll content
+						    }
+						    return;
 						})
 					}
 
@@ -316,6 +323,10 @@
 					if (!isOverPanel) { return; }
 
 					var e = e || window.event;
+
+					//取消拖动
+					$(document).unbind('mousemove.slimscroll');
+
 
 					var delta = 0;
 					if (e.wheelDelta) { delta = -e.wheelDelta / 120; }
